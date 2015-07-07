@@ -1,0 +1,35 @@
+#include "timeitems.h"
+
+TimeItems::TimeItems(){}
+TimeItems::~TimeItems(){}
+
+Scale *TimeItems::clone() const
+{
+   return new TimeItems;
+}
+
+QString TimeItems::ticLabel(unsigned int idx) const
+{
+    if (idx < majors_p.size())
+    {
+      QTime t = QTime(0,0,0);
+      int h = t.hour();
+      int m = t.minute();
+      int s = t.second();
+      if(s+idx > 59)
+      {
+          m =+ 1;
+          s = (s + idx) % 60;
+          if(m > 59)
+          {
+              h =+ 1;
+              m = (m + idx) % 60;
+          }
+      }
+      else
+          h += idx;
+      return QTime(h,m,s).toString("hh:mm:ss");
+   }
+   return QString("");
+}
+
